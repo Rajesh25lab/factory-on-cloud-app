@@ -1,0 +1,45 @@
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; padding: 15px; background-color: #f4f4f4; }
+h3 { color: #333; }
+.container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); max-width: 600px; margin: 0 auto; }
+.form-group { margin-bottom: 20px; }
+label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
+input[type="text"], input[type="number"], input[type="tel"], input[type="file"], select {
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box; 
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+button {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#btn-expense { background-color: #4285F4; color: white; }
+#btn-new-emp { background-color: #34A853; color: white; }
+#btn-batch { background-color: #fbbc04; color: #202124; }
+#btn-submit-emp, #btn-submit-expense, #btn-submit-reason, #btn-submit-batch, #btn-access { background-color: #4285F4; color: white; }
+#btn-cancel { background-color: #9E9E9E; color: white; }
+#status { margin-top: 15px; font-weight: bold; padding: 12px; border-radius: 5px; display: none; text-align: center; }
+#loading { text-align: center; padding: 30px; }
+.form-container { display: none; }
+.link-button {
+  background: none;
+  border: none;
+  color: #4285F4;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+  text-align: left;
+  margin-top: 10px;
+  width: auto;
+}
+.access-container { padding: 40px 20px; text-align: center; background-color: #fff; border-radius: 8px; }
+.access-pending { color: #b85c00; font-size: 1.2em; }
