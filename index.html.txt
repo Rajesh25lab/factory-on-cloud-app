@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base target="_top">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Factory on Cloud</title>
+</head>
+<body>
+    <div class="container">
+        
+        <div id="loading">
+          <p>Checking User Access...</p>
+        </div>
+
+        <div id="access-check" class="form-container access-container">
+            <h3>Access Denied</h3>
+            <p id="access-message">This application is restricted to approved users.</p>
+            
+            <form id="requestForm" style="display:none;">
+                <div class="form-group">
+                    <label for="username">Your Name (for Admin Review)</label>
+                    <input type="text" id="username" required>
+                </div>
+                <button type="submit" id="btn-access">Request Access</button>
+            </form>
+        </div>
+
+        <div id="menu" class="form-container">
+            <h3>Factory on Cloud</h3>
+            <p>Select an action:</p>
+            <button id="btn-expense" onclick="showForm('expense')">Post a Single Expense</button>
+            <button id="btn-batch" onclick="showForm('batch')">Upload a Batch of Expenses</button>
+            <button id="btn-new-emp" onclick="showForm('new-emp')">Add New Employee/Vendor</button>
+        </div>
+
+        <div id="new-emp-form" class="form-container">
+            <h3>Add New Employee/Vendor</h3>
+            <p>This will be sent for admin approval.</p>
+            <form id="masterForm">
+                <div class="form-group">
+                    <label for="name">Employee/Vendor Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="bankName">Name in Bank Account</label>
+                    <input type="text" id="bankName" required>
+                </div>
+                <div class="form-group">
+                    <label for="acctNo">Account No. (Numbers only)</label>
+                    <input type="tel" id="acctNo" pattern="[0-9]+" title="Please enter numbers only." required>
+                </div>
+                <div class="form-group">
+                    <label for="ifsc">IFSC Code (11 Chars)</label>
+                    <input type="text" id="ifsc" pattern="[a-zA-Z]{4}0[a-zA-Z0-9]{6}" title="Invalid IFSC format (e.g., KKBK0000123)" minlength="11" maxlength="11" style="text-transform:uppercase" required>
+                </div>
+                <div class="form-group">
+                    <label for="empId">Employee ID (Optional)</label>
+                    <input type="text" id="empId">
+                </div>
+                <button type="submit" id="btn-submit-emp">Submit for Approval</button>
+                <button type="button" id="btn-cancel" onclick="showForm('menu')">Cancel</button>
+            </form>
+        </div>
+
+        <div id="expense-form" class="form-container">
+            <h3>Post Manual Expense</h3>
+            <form id="expenseForm">
+                <div class="form-group">
+                    <label for="exp-name">Payee Name (Select from list)</label>
+                    <input type="text" id="exp-name" list="names-list" required>
+                    <datalist id="names-list">
+                        </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="exp-amount">Amount</label>
+                    <input type="number" id="exp-amount" required>
+                </div>
+                <div class="form-group">
+                    <label for="exp-reason">Reason (Select from list)</label>
+                    <select id="exp-reason" required>
+                        <option value="">-- Select a Reason --</option>
+                         </select>
+                    <button type="button" class="link-button" onclick="showForm('new-reason')">Reason not in list? Suggest a new one.</button>
+                </div>
+                <button type="submit" id="btn-submit-expense">Submit Expense</button>
+                <button type="button" id="btn-cancel" onclick="showForm('menu')">Cancel</button>
+            </form>
+        </div>
+        
+        <div id="batch-form" class="form-container">
+            <h3>Upload Batch Expenses</h3>
+            <p>Upload an Excel (.xlsx) or CSV file. The file must have 3 columns: <b>Name, Amount, Reason</b>.</p>
+            <form id="batchUploadForm">
+                <div class="form-group">
+                    <label for="expense-file">Select File</label>
+                    <input type="file" id="expense-file" accept=".xlsx, .xls, .csv" required>
+                </div>
+                <button type="submit" id="btn-submit-batch">Upload & Submit for Processing</button>
+                <button type="button" id="btn-cancel" onclick="showForm('menu')">Cancel</button>
+            </form>
+        </div>
+        
+        <div id="new-reason-form" class="form-container">
+            <h3>Suggest New Reason</h3>
+            <p>This will be sent to an admin for review. It will not be available immediately.</p>
+            <form id="reasonForm">
+                <div class="form-group">
+                    <label for="reason-name">New Reason Name</label>
+                    <input type="text" id="reason-name" required>
+                </div>
+                <button type="submit" id="btn-submit-reason">Submit Suggestion</button>
+                <button type="button" id="btn-cancel" onclick="showForm('expense')">Back to Expense</button>
+            </form>
+        </div>
+        
+        <div id="status"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
