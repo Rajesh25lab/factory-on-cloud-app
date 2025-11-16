@@ -143,25 +143,27 @@ document.getElementById("batchUploadForm").addEventListener("submit", function(e
 // --- [MASTER API CALL FUNCTION] ---
 /**
  * The new central function to call our Apps Script API.
+ * UPDATED: Removed 'no-cors' and set correct 'Content-Type'.
  */
 async function callApi(action, payload) {
-  // We can't get the user's email from Vercel.
-  // This is a placeholder and the biggest hurdle we need to solve.
+  // This is still a placeholder. We must implement real Google Sign-In later.
   const userEmail = "user.from.vercel@example.com"; 
 
   const requestBody = {
     apiKey: API_KEY,
     action: action,
-    userEmail: userEmail, // Sending the user's identity
+    userEmail: userEmail,
     payload: payload
   };
   
   const response = await fetch(API_URL, {
     method: 'POST',
     headers: {
-      'Content-Type': 'text/plain;charset=utf-8', // Use text/plain for Apps Script web apps
+      // FIX: Changed from text/plain to application/json
+      'Content-Type': 'application/json', 
     },
     body: JSON.stringify(requestBody),
+    // FIX: Removed 'mode: 'no-cors'
   });
 
   if (!response.ok) {
@@ -176,7 +178,6 @@ async function callApi(action, payload) {
   
   return result;
 }
-
 
 // --- Helper Functions (Identical to before) ---
 
