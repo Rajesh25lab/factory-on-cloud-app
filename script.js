@@ -1,5 +1,6 @@
 // --- [CONFIG] ---
 // PASTE YOUR NEW APPS SCRIPT API URL HERE
+// This is the URL you got from deploying your "Factory on Cloud - API" project
 const API_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE"; 
 
 // PASTE YOUR SECRET PASSWORD HERE (must match Code.gs)
@@ -19,7 +20,8 @@ document.addEventListener("DOMContentLoaded", function() {
       onStatusChecked(response.data);
     })
     .catch(err => {
-      onFailure(err);
+      // This is the first place an error will show
+      onFailure(new Error("API Connection Failed. " + err.message));
     });
 });
 
@@ -65,6 +67,7 @@ function onAccessRequestSuccess(message) {
 
 // --- 2. Load Main Application Data ---
 function onDataLoaded(data) {
+  // Store data and populate forms as before
   allNames = data.names;
   allReasons = data.reasons;
 
@@ -143,11 +146,8 @@ document.getElementById("batchUploadForm").addEventListener("submit", function(e
  */
 async function callApi(action, payload) {
   // We can't get the user's email from Vercel.
-  // For this to work, the user MUST be logged into the same
-  // Google account in their browser that is approved in the sheet.
-  // We will pass a "dummy" email for now, as our API isn't set up for OAuth.
-  // NOTE: This is a simplification for our project.
-  const userEmail = "temp.user@gmail.com"; // <-- This is a placeholder
+  // This is a placeholder and the biggest hurdle we need to solve.
+  const userEmail = "user.from.vercel@example.com"; 
 
   const requestBody = {
     apiKey: API_KEY,
@@ -159,16 +159,15 @@ async function callApi(action, payload) {
   const response = await fetch(API_URL, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'text/plain;charset=utf-8', // Use text/plain for Apps Script web apps
     },
     body: JSON.stringify(requestBody),
-    mode: 'no-cors' // <-- This might be required if CORS isn't set up
   });
 
-  // Since mode is 'no-cors', we can't read the response.
-  // This is a major hurdle we must fix by properly handling CORS.
+  if (!response.ok) {
+    throw new Error(`API call failed with status ${response.status}`);
+  }
   
-  // For now, let's assume CORS works.
   const result = await response.json();
 
   if (result.status === 'error') {
@@ -179,11 +178,11 @@ async function callApi(action, payload) {
 }
 
 
-// --- Helper Functions ---
+// --- Helper Functions (Identical to before) ---
 
 function onSuccess(message) {
     showView('menu');
-    showStatus("✅ "A-Z (ascending)" + message, "green");
+    showStatus("✅ " + message, "green");
     document.getElementById("masterForm").reset();
     document.getElementById("expenseForm").reset();
     document.getElementById("reasonForm").reset();
@@ -195,4 +194,35 @@ function onSuccess(message) {
 function onFailure(error) {
     showView('menu');
     showStatus("❌ BACKEND ERROR: " + error.message, "red");
+}
+
+function showStatus(message, color, display = "block") {
+  var statusDiv = document.getElementById("status");
+  statusDiv.style.display = display;
+  statusDiv.innerHTML = message;
+  statusDiv.style.color = color;
+}
+
+function showView(viewId) {
+  // Hide all main views
+  document.getElementById("loading").style.display = "none";
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("new-emp-form").style.display = "none";
+  document.getElementById("expense-form").style.display = "none";
+  document.getElementById("new-reason-form").style.display = "none";
+  document.getElementById("batch-form").style.display = "none";
+  document.getElementById("access-check").style.display = "none";
+  
+  // Show the requested view
+  document.getElementById(viewId).style.display = "block";
+}
+
+function showForm(formId) {
+  showStatus("", "black", "none"); // Clear any old status
+  showView(formId + (formId !== 'menu' ? '-form' : ''));
+}
+
+function showLoading(isLoading, message) {
+    showView('loading');
+    showStatus(message || "Loading...", "orange");
 }
