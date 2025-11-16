@@ -1,10 +1,10 @@
 // --- [CONFIG] ---
 // PASTE YOUR NEW APPS SCRIPT API URL HERE
 // This is the URL you got from deploying your "Factory on Cloud - API" project
-const API_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE"; 
+const API_URL = "https://script.google.com/a/macros/oncloudindia.com/s/AKfycbzu-YwCVJoxEfU2u65fNaJfYUi1ofQU9WkunK49g2d7-pqfsZSm1s8_HvG0m5PSwpgrzA/exec"; 
 
 // PASTE YOUR SECRET PASSWORD HERE (must match Code.gs)
-const API_KEY = "your-very-secret-password-123"; 
+const API_KEY = "Oncloud"; 
 // --- [END CONFIG] ---
 
 
